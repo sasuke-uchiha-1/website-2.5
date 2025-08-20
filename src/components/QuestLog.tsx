@@ -17,38 +17,7 @@ const QuestLog: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   
-  const [questEntries] = useState<QuestLogEntry[]>([
-    {
-      id: '1',
-      questTitle: 'Complete 45-minute workout',
-      category: 'Body',
-      completedDate: '2024-01-20',
-      reflection: 'Pushed through the resistance and felt amazing afterward. My body is getting stronger and I can feel the discipline building.',
-      xpEarned: 75,
-      mood: 'energized',
-      tags: ['strength', 'discipline', 'breakthrough']
-    },
-    {
-      id: '2',
-      questTitle: 'Read 30 pages of growth book',
-      category: 'Mind',
-      completedDate: '2024-01-19',
-      reflection: 'Learned about compound habits. The concept of 1% daily improvement really resonated with me. This is exactly what kaizen is about.',
-      xpEarned: 50,
-      mood: 'accomplished',
-      tags: ['learning', 'habits', 'insight']
-    },
-    {
-      id: '3',
-      questTitle: 'Meditate for 20 minutes',
-      category: 'Mind',
-      completedDate: '2024-01-18',
-      reflection: 'Found it challenging to quiet my mind today, but that\'s exactly why this practice is so important. Each session teaches patience.',
-      xpEarned: 40,
-      mood: 'peaceful',
-      tags: ['mindfulness', 'patience', 'growth']
-    }
-  ]);
+  const [questEntries] = useState<QuestLogEntry[]>([]);
 
   const categories = ['All', 'Mind', 'Body', 'Wealth', 'Relationships', 'Creativity', 'Discipline'];
 

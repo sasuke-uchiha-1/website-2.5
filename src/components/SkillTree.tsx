@@ -25,11 +25,11 @@ const SkillTree = () => {
       name: "Mind",
       icon: Brain,
       color: "from-blue-500 to-purple-500",
-      mainLevel: 15,
+      mainLevel: 0,
       skills: [
-        { id: "reading", name: "Reading", level: 12, unlocked: true, x: 20, y: 40 },
-        { id: "meditation", name: "Meditation", level: 8, unlocked: true, x: 60, y: 20 },
-        { id: "learning", name: "Learning", level: 15, unlocked: true, x: 40, y: 60 },
+        { id: "reading", name: "Reading", level: 0, unlocked: false, x: 20, y: 40 },
+        { id: "meditation", name: "Meditation", level: 0, unlocked: false, x: 60, y: 20 },
+        { id: "learning", name: "Learning", level: 0, unlocked: false, x: 40, y: 60 },
         { id: "focus", name: "Focus", level: 5, unlocked: false, x: 80, y: 50 }
       ]
     },
@@ -37,24 +37,24 @@ const SkillTree = () => {
       name: "Body",
       icon: Heart,
       color: "from-green-500 to-blue-500",
-      mainLevel: 12,
+      mainLevel: 0,
       skills: [
-        { id: "strength", name: "Strength", level: 10, unlocked: true, x: 25, y: 35 },
-        { id: "cardio", name: "Cardio", level: 12, unlocked: true, x: 55, y: 25 },
-        { id: "flexibility", name: "Flexibility", level: 6, unlocked: true, x: 35, y: 65 },
-        { id: "nutrition", name: "Nutrition", level: 8, unlocked: true, x: 75, y: 45 }
+        { id: "strength", name: "Strength", level: 0, unlocked: false, x: 25, y: 35 },
+        { id: "cardio", name: "Cardio", level: 0, unlocked: false, x: 55, y: 25 },
+        { id: "flexibility", name: "Flexibility", level: 0, unlocked: false, x: 35, y: 65 },
+        { id: "nutrition", name: "Nutrition", level: 0, unlocked: false, x: 75, y: 45 }
       ]
     },
     {
       name: "Wealth",
       icon: DollarSign,
       color: "from-yellow-500 to-orange-500",
-      mainLevel: 8,
+      mainLevel: 0,
       skills: [
-        { id: "investing", name: "Investing", level: 5, unlocked: true, x: 30, y: 40 },
-        { id: "business", name: "Business", level: 8, unlocked: true, x: 70, y: 30 },
-        { id: "budgeting", name: "Budgeting", level: 6, unlocked: true, x: 50, y: 70 },
-        { id: "networking", name: "Networking", level: 3, unlocked: false, x: 85, y: 55 }
+        { id: "investing", name: "Investing", level: 0, unlocked: false, x: 30, y: 40 },
+        { id: "business", name: "Business", level: 0, unlocked: false, x: 70, y: 30 },
+        { id: "budgeting", name: "Budgeting", level: 0, unlocked: false, x: 50, y: 70 },
+        { id: "networking", name: "Networking", level: 0, unlocked: false, x: 85, y: 55 }
       ]
     }
   ];

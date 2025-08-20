@@ -72,61 +72,20 @@ const Dashboard = () => {
   }));
 
   const skillTrees = [
-    { name: "Mind", level: skillsData.find(s => s.skill_name === 'Mind')?.level || 1, icon: Brain, color: "from-blue-500 to-purple-500", progress: ((skillsData.find(s => s.skill_name === 'Mind')?.xp || 0) % 100) },
-    { name: "Body", level: skillsData.find(s => s.skill_name === 'Body')?.level || 1, icon: Heart, color: "from-green-500 to-blue-500", progress: ((skillsData.find(s => s.skill_name === 'Body')?.xp || 0) % 100) },
-    { name: "Wealth", level: skillsData.find(s => s.skill_name === 'Wealth')?.level || 1, icon: DollarSign, color: "from-yellow-500 to-orange-500", progress: ((skillsData.find(s => s.skill_name === 'Wealth')?.xp || 0) % 100) },
-    { name: "Relationships", level: skillsData.find(s => s.skill_name === 'Relationships')?.level || 1, icon: Users, color: "from-pink-500 to-red-500", progress: ((skillsData.find(s => s.skill_name === 'Relationships')?.xp || 0) % 100) },
-    { name: "Creativity", level: skillsData.find(s => s.skill_name === 'Creativity')?.level || 1, icon: Palette, color: "from-purple-500 to-pink-500", progress: ((skillsData.find(s => s.skill_name === 'Creativity')?.xp || 0) % 100) },
-    { name: "Discipline", level: skillsData.find(s => s.skill_name === 'Discipline')?.level || 1, icon: Shield, color: "from-red-500 to-purple-500", progress: ((skillsData.find(s => s.skill_name === 'Discipline')?.xp || 0) % 100) }
+    { name: "Mind", level: skillsData.find(s => s.skill_name === 'Mind')?.level || 0, icon: Brain, color: "from-blue-500 to-purple-500", progress: ((skillsData.find(s => s.skill_name === 'Mind')?.xp || 0) % 100) },
+    { name: "Body", level: skillsData.find(s => s.skill_name === 'Body')?.level || 0, icon: Heart, color: "from-green-500 to-blue-500", progress: ((skillsData.find(s => s.skill_name === 'Body')?.xp || 0) % 100) },
+    { name: "Wealth", level: skillsData.find(s => s.skill_name === 'Wealth')?.level || 0, icon: DollarSign, color: "from-yellow-500 to-orange-500", progress: ((skillsData.find(s => s.skill_name === 'Wealth')?.xp || 0) % 100) },
+    { name: "Relationships", level: skillsData.find(s => s.skill_name === 'Relationships')?.level || 0, icon: Users, color: "from-pink-500 to-red-500", progress: ((skillsData.find(s => s.skill_name === 'Relationships')?.xp || 0) % 100) },
+    { name: "Creativity", level: skillsData.find(s => s.skill_name === 'Creativity')?.level || 0, icon: Palette, color: "from-purple-500 to-pink-500", progress: ((skillsData.find(s => s.skill_name === 'Creativity')?.xp || 0) % 100) },
+    { name: "Discipline", level: skillsData.find(s => s.skill_name === 'Discipline')?.level || 0, icon: Shield, color: "from-red-500 to-purple-500", progress: ((skillsData.find(s => s.skill_name === 'Discipline')?.xp || 0) % 100) }
   ];
 
-  const recentAchievements = [
-    { title: "Week Warrior", description: "7-day streak completed", icon: Flame },
-    { title: "Mind Master", description: "Mind skill reached level 15", icon: Brain },
-    { title: "Quest Crusher", description: "100 quests completed", icon: Target }
-  ];
-
-  const aiChallenge = {
-    title: "Record a 2-minute video explaining one thing you learned today and share it with someone who would benefit",
-    difficulty: "Boss Level",
-    xp: 200,
-    skills: ["Mind", "Creativity", "Relationships"]
-  };
-
-  const bossQuests = [
-    {
-      title: "The 7-Day Discipline Forge",
-      description: "Complete all daily training sessions for 7 consecutive days without missing a single one. Forge your discipline in the fires of consistency.",
-      difficulty: 'Elite' as const,
-      xpReward: 500,
-      timeLimit: "7 Days",
-      requirements: ["Discipline Level 10+", "3-day streak minimum"],
-      skillCategory: "Discipline",
-      isUnlocked: true,
-      isCompleted: false
-    },
-    {
-      title: "The Public Speaking Samurai",
-      description: "Record and share a 5-minute video explaining something you're passionate about. Face your fear and become a communication warrior.",
-      difficulty: 'Master' as const,
-      xpReward: 750,
-      requirements: ["Mind Level 15+", "Creativity Level 10+"],
-      skillCategory: "Mind",
-      isUnlocked: false,
-      isCompleted: false
-    },
-    {
-      title: "The Wealth Builder's Gauntlet",
-      description: "Generate $1000 in additional income through a side project or skill monetization within 30 days.",
-      difficulty: 'Legendary' as const,
-      xpReward: 1500,
-      timeLimit: "30 Days",
-      requirements: ["Wealth Level 20+", "Complete 10 wealth quests"],
-      skillCategory: "Wealth",
-      isUnlocked: false,
-      isCompleted: false
-    }
-  ];
+  // Check if user has updated their profile (any field filled)
+  const hasProfileData = userProfile && (
+    userProfile.username || 
+    userProfile.character_class || 
+    userProfile.avatar_emoji !== '🎯'
+  );
 
   const handleAddQuest = (newQuest: { title: string; category: string; xp: number }) => {
     addQuest(newQuest.title, newQuest.category, newQuest.xp);
@@ -259,6 +218,7 @@ const Dashboard = () => {
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-2xl font-bold text-white">Today's Training</h3>
                 <button 
+                  onClick={() => setIsQuestModalOpen(true)}
                   className="p-2 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-lg hover:from-cyan-700 hover:to-blue-700 transition-all"
                 >
                   <Plus className="h-5 w-5 text-white" />
@@ -276,7 +236,7 @@ const Dashboard = () => {
                         ? 'bg-green-900/20 border-green-500/30' 
                         : 'bg-gray-800/30 border-gray-600/30 hover:border-cyan-500/50'
                     }`}
-                    onClick={() => toggleQuestComplete(quest.id)}
+                    onClick={() => handleToggleQuest(quest.id)}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
@@ -302,43 +262,45 @@ const Dashboard = () => {
                     </div>
                   </motion.div>
                 ))}
+                {dailyQuests.length === 0 && (
+                  <div className="text-center py-12">
+                    <Target className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-400 text-lg">No training sessions yet</p>
+                    <p className="text-gray-500 mb-4">Create your first quest to begin your kaizen journey</p>
+                    <button
+                      onClick={() => setIsQuestModalOpen(true)}
+                      className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-semibold rounded-lg transition-all duration-200"
+                    >
+                      Create First Quest
+                    </button>
+                  </div>
+                )}
               </div>
             </motion.div>
 
-            {/* AI Challenge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="p-6 bg-gradient-to-br from-cyan-900/30 to-blue-900/20 border border-cyan-500/30 rounded-2xl"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <Zap className="h-6 w-6 text-yellow-400" />
-                <h3 className="text-2xl font-bold text-white">Sensei Challenge</h3>
-                <span className="px-3 py-1 bg-yellow-600/20 text-yellow-400 text-sm rounded-full border border-yellow-500/30">
-                  {aiChallenge.difficulty}
-                </span>
-              </div>
-              <p className="text-lg text-gray-300 mb-4">{aiChallenge.title}</p>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {aiChallenge.skills.map((skill) => (
-                  <span key={skill} className="px-3 py-1 bg-cyan-600/20 text-cyan-400 text-sm rounded-full border border-cyan-500/30">
-                    {skill}
+            {/* AI Challenge - Only show if user has profile data */}
+            {hasProfileData && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="p-6 bg-gradient-to-br from-cyan-900/30 to-blue-900/20 border border-cyan-500/30 rounded-2xl"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <Zap className="h-6 w-6 text-yellow-400" />
+                  <h3 className="text-2xl font-bold text-white">Sensei Challenge</h3>
+                  <span className="px-3 py-1 bg-yellow-600/20 text-yellow-400 text-sm rounded-full border border-yellow-500/30">
+                    Coming Soon
                   </span>
-                ))}
-              </div>
-              <div className="flex justify-between items-center">
-                <div className="text-cyan-400 font-bold">+{aiChallenge.xp} XP</div>
-                <div className="flex gap-3">
-                  <button className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
-                    Skip
-                  </button>
-                  <button className="px-6 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white rounded-lg transition-all">
-                    Accept Challenge
-                  </button>
                 </div>
-              </div>
-            </motion.div>
+                <p className="text-lg text-gray-300 mb-4">
+                  Personalized challenges will appear here based on your profile and progress.
+                </p>
+                <div className="text-center py-4">
+                  <p className="text-gray-400">AI-generated challenges coming soon...</p>
+                </div>
+              </motion.div>
+            )}
           </div>
 
           {/* Right Column */}
@@ -368,7 +330,7 @@ const Dashboard = () => {
                 {skillTrees.map((skill, index) => (
                   <motion.div
                     key={skill.name}
-                    initial={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     className="group"
@@ -395,7 +357,7 @@ const Dashboard = () => {
               </div>
             </motion.div>
 
-            {/* Recent Achievements */}
+            {/* Recent Achievements - Only show if user has achievements */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -403,24 +365,10 @@ const Dashboard = () => {
               className="p-6 bg-gradient-to-br from-gray-900/50 to-slate-900/20 border border-cyan-500/20 rounded-2xl"
             >
               <h3 className="text-2xl font-bold text-white mb-6">Recent Honors</h3>
-              <div className="space-y-4">
-                {recentAchievements.map((achievement, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="flex items-center gap-3 p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-xl"
-                  >
-                    <div className="p-2 bg-yellow-600 rounded-lg">
-                      <achievement.icon className="h-5 w-5 text-white" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-yellow-400">{achievement.title}</h4>
-                      <p className="text-sm text-gray-300">{achievement.description}</p>
-                    </div>
-                  </motion.div>
-                ))}
+              <div className="text-center py-8">
+                <Award className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-400 text-lg">No achievements yet</p>
+                <p className="text-gray-500">Complete quests and build streaks to earn your first honors</p>
               </div>
             </motion.div>
           </div>
@@ -430,7 +378,7 @@ const Dashboard = () => {
         {/* Skill Tree Tab */}
         {activeTab === 'skills' && <SkillTree />}
 
-        {/* Boss Quests Tab */}
+        {/* Boss Quests Tab - Only show if user has profile data */}
         {activeTab === 'boss' && (
           <div className="space-y-8">
             <div className="text-center mb-8">
@@ -441,15 +389,30 @@ const Dashboard = () => {
               <p className="text-gray-300">Epic challenges that test your mastery and unlock legendary rewards</p>
             </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {bossQuests.map((quest, index) => (
-                <BossQuest
-                  key={index}
-                  {...quest}
-                  onAccept={() => console.log(`Accepted boss quest: ${quest.title}`)}
-                />
-              ))}
-            </div>
+            {!hasProfileData ? (
+              <div className="text-center py-16">
+                <Crown className="h-16 w-16 text-gray-400 mx-auto mb-6" />
+                <h3 className="text-2xl font-bold text-white mb-4">Boss Quests Await</h3>
+                <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                  Complete your profile first, and our AI sensei will generate epic boss challenges 
+                  tailored to your goals and skill level.
+                </p>
+                <button
+                  onClick={() => setActiveTab('profile')}
+                  className="px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-bold rounded-xl transition-all duration-300"
+                >
+                  Complete Profile
+                </button>
+              </div>
+            ) : (
+              <div className="text-center py-16">
+                <Crown className="h-16 w-16 text-gray-400 mx-auto mb-6" />
+                <h3 className="text-2xl font-bold text-white mb-4">Boss Quests Coming Soon</h3>
+                <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                  Our AI sensei is analyzing your profile and progress to generate personalized boss challenges.
+                </div>
+              </div>
+            )}
           </div>
         )}
 
